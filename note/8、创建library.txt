@@ -1,0 +1,14 @@
+# EIGHT
+
+## 初始化
+npm init -y
+
+## 文件结构
+  |- webpack.config.js
+  |- package.json
+  |- /src
+  |--- index.js
+  |--- ref.json
+
+## 安装 webpack webpack-cli 和 lodash
+npm install --save-dev webpack webpack-cli lodash
