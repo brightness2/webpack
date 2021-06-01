@@ -1,0 +1,34 @@
+# SIX
+
+## 代码错误追踪
+如果你一直跟随之前的指南，应该对一些 webpack 基础知识有着很扎实的理解。在我们继续之前，先来看看如何设置一个开发环境，使我们的开发体验变得更轻松一些。
+
+Warning
+本指南中的工具仅用于开发环境，请不要在生产环境中使用它们！
+
+在开始前，我们先将 mode 设置为 'development'，并将 title 设置为 'Development'。
+
+- webpack.config.
+添加配置
+mode:'development',
+devtool: "inline-source-map",
+
+
+## 自动 build
+使用 webpack-dev-server 实现
+npm install --save-dev webpack-dev-server
+
+- webpack.config.js
+添加配置
+devServer:{
+    contentBase:'./dist',
+},
+
+- package.json
+添加配置
+    
+"scripts":{
+    "start": "webpack serve --open"
+}
+
+访问： [devServer.port]/[output.publicPath]/[output.filename] 进行访问。即：http://localhost:8080/

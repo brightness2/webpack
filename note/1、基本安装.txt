@@ -1,0 +1,74 @@
+# ONE
+
+##
+
+首先我们创建一个目录，初始化 npm，然后 在本地安装 webpack，接着安装 webpack-cli（此工具用于在命令行中运行 webpack）：
+
+mkdir webpack-demo
+cd webpack-demo
+npm init -y
+npm install webpack webpack-cli --save-dev
+
+##
+
+现在，我们将创建以下目录结构、文件和内容：
+
+webpack-demo
+|- package.json
+|- index.html
+|- /src
+|--- index.js
+
+## 文件内容
+
+- src/index.js
+  function component() {
+  const element = document.createElement("div");
+  // lodash（目前通过一个 script 引入）对于执行这一行是必需的
+  element.innerHTML = _.join(["Hello", "webpack"], " ");
+  return element;
+  }
+  document.body.appendChild(component());
+- index.html
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Brightness</title>
+      <script src="https://unpkg.com/lodash@4.17.20"></script>
+  </head>
+  <body>
+      
+      <script src="../src/index.js"></script>
+  </body>
+  </html>
+- package.json
+  {
+  "name": "webpack-demo",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+  "webpack": "^5.38.1",
+  "webpack-cli": "^4.7.0"
+  }
+  }
+
+##
+
+在此示例中，“<script>” 标签之间存在隐式依赖关系。在 index.js 文件执行之前，还需要在页面中先引入 lodash。这是因为 index.js 并未显式声明它需要 lodash，假定推测已经存在一个全局变量 \_。
+
+使用这种方式去管理 JavaScript 项目会有一些问题：
+
+无法直接体现，脚本的执行依赖于外部库。
+如果依赖不存在，或者引入顺序错误，应用程序将无法正常运行。
+如果依赖被引入但是并没有使用，浏览器将被迫下载无用代码。
+让我们使用 webpack 来管理这些脚本。

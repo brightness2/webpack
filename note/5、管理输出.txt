@@ -1,0 +1,117 @@
+# FIVE
+
+## 预先准备,多入口多输出
+
+首先，调整一下我们的项目：
+
+project
+
+  webpack-demo
+  |- package.json
+  |- webpack.config.js
+  |- /dist
+  |- /src
+  |--- index.js
+  |--- print.js
+  |- /node_modules
+
+  - src/print.js
+  export default function printMe() {
+    console.log("I get called from print.js");
+  }
+
+ - src/index.js
+ import _ from "lodash";
+import printMe from "./print";
+function component() {
+  const element = document.createElement("div");
+  // lodash 在当前 script 中使用 import 引入
+  element.innerHTML = _.join(["Hello", "webpack"], " ");
+  element.classList.add("hello");
+
+
+  element.onclick = printMe;
+
+  return element;
+}
+document.body.appendChild(component());
+
+- webpack.config.js
+const path = require("path");
+
+module.exports = {
+  entry: {
+    index: "./src/index.js",
+    print: "./src/print.js",
+  },
+  output: {
+    // filename: "main.js",
+    filename: "[name].bundle.js",
+    path: path.resolve(__dirname, "dist"),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i, //正则，匹配css文件
+        use: ["style-loader", "css-loader"], //对应使用的loader，注意顺序
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i, //加载的图片
+        type: "asset/resource",
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i, //加载字体
+        type: "asset/resource",
+      },
+    ],
+  },
+};
+
+## 设置 HtmlWebpackPlugin
+首先安装插件，并且调整 webpack.config.js 文件：
+
+npm install --save-dev html-webpack-plugin
+
+- webpack.config.js
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+module.exports = {
+  entry: {
+    index: "./src/index.js",
+    print: "./src/print.js",
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "管理输出",
+    }),
+  ],
+  output: {
+    // filename: "main.js",
+    filename: "[name].bundle.js",
+    path: path.resolve(__dirname, "dist"),
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i, //正则，匹配css文件
+        use: ["style-loader", "css-loader"], //对应使用的loader，注意顺序
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i, //加载的图片
+        type: "asset/resource",
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i, //加载字体
+        type: "asset/resource",
+      },
+    ],
+  },
+};
+
+
+## 清理 /dist 文件夹
+- webpack.config.js
+配置
+output:{
+    clean:true,
+}

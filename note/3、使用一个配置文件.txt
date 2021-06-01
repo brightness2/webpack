@@ -1,0 +1,26 @@
+# THREE
+
+## 创建一个配置文件 webpack.config.js
+
+webpack-demo
+|- package.json
+|- webpack.config.js
+|- /dist
+|--- index.html
+|- /src
+|--- index.js
+
+## 文件内容
+- webpack.config.js
+  const path = require("path");
+
+  module.exports = {
+  entry: "./src/index.js",
+  output: {
+  filename: "main.js",
+  path: path.resolve(__dirname, "dist"),
+  },
+  };
+
+## 使配置文件生效
+ npx webpack --config webpack.config.js
